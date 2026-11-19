@@ -41,6 +41,14 @@ public class LoginController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
+        if (username == null || username.isBlank() || password == null || password.isEmpty()) {
+            req.setAttribute("error", "Vui lòng nhập tên đăng nhập và mật khẩu.");
+            req.setAttribute("username", username == null ? "" : username.trim());
+            req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
+            return;
+        }
+
+        username = username.trim();
         User user = userService.login(username, password);
         if (user != null && !user.isActive()) {
             // Đúng mật khẩu nhưng chưa kích hoạt -> gửi OTP mới và chuyển sang trang xác nhận

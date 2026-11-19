@@ -79,7 +79,7 @@
 
                     <div class="form-group">
                         <label class="form-label" for="catename">Tên danh mục *</label>
-                        <input id="catename" type="text" class="field-input" name="catename" required value="<c:out value='${category.categoryname}'/>">
+                        <input id="catename" type="text" class="field-input" name="catename" required maxlength="255" value="<c:out value='${category.categoryname}'/>">
                     </div>
 
                     <div class="form-group">
@@ -91,7 +91,7 @@
                                 <span>Ảnh hiện tại. Chọn ảnh mới bên dưới nếu muốn thay đổi.</span>
                             </div>
                         </c:if>
-                        <input id="icon" class="file-input" type="file" name="icon" accept="image/*">
+                        <input id="icon" class="file-input" type="file" name="icon" accept=".jpg,.jpeg,.png,.webp">
                         <span class="file-hint">Để trống nếu muốn giữ ảnh cũ.</span>
                     </div>
 

@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Hibernate 7 cần JDK 17 trở lên. Đổi thành 21 / 24 nếu máy bạn dùng JDK đó -->
+        <!-- Dự án hiện biên dịch với JDK 21. -->
         <maven.compiler.release>21</maven.compiler.release>
     </properties>
 
@@ -40,6 +40,13 @@
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
             <version>3.0.1</version>
+        </dependency>
+
+        <!-- SiteMesh 3 page decorators -->
+        <dependency>
+            <groupId>org.sitemesh</groupId>
+            <artifactId>sitemesh</artifactId>
+            <version>3.2.2</version>
         </dependency>
 
         <!-- JPA: Hibernate ORM (kéo theo jakarta.persistence-api) -->

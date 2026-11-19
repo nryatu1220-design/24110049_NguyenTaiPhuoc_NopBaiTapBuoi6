@@ -4,7 +4,7 @@ Chuyển bài CRUD Category (Servlet + JDBC) sang **JPA (Hibernate 7)**, kiến 
 Controller → Service → DAO → Entity (EntityManager).
 
 ## Yêu cầu
-- JDK 17+, Maven
+- JDK 21+, Maven
 - Tomcat 10.1+ (dùng `jakarta.*`)
 - SQL Server (TCP/IP port 1433, bật SQL Authentication cho user `sa`)
 
@@ -18,8 +18,16 @@ Controller → Service → DAO → Entity (EntityManager).
 Ảnh upload lưu ở `<thư mục home>/upload/category`, poster + video lưu ở `<thư mục home>/upload/video` (xem `util/Constant.java`).
 
 ### Cấu hình email OTP
-Sửa `src/main/resources/mail.properties` (Gmail: dùng *App password* 16 ký tự, không dùng mật khẩu thường) hoặc đặt biến môi
-trường `MAIL_USERNAME` / `MAIL_PASSWORD`. Nếu chưa cấu hình, mã OTP được **in ra console của Tomcat** (chế độ DEV) để chạy thử.
+Dùng Gmail thì bật xác minh 2 bước và tạo *App password* (không dùng mật khẩu Gmail thường). Để giữ thông tin ngoài project/Git, tạo file `%USERPROFILE%\.shopping-mail.properties`:
+
+```properties
+mail.username=dia-chi-gmail@gmail.com
+mail.password=mat-khau-ung-dung-16-ky-tu-khong-co-khoang-trang
+mail.from=dia-chi-gmail@gmail.com
+mail.from.name=Shopping
+```
+
+Sau đó khởi động lại Tomcat. Có thể tham khảo `src/main/resources/mail.properties` để biết các khóa SMTP. Nếu chưa cấu hình, mã OTP được **in ra console của Tomcat** (chế độ DEV) để chạy thử.
 
 ## Cấu trúc
 ```
@@ -33,7 +41,14 @@ src/main/java/vn/iotstar/
   controller/ Login, Register, Logout, DownloadImage, admin/{Dashboard,CategoryList,CategoryAdd,CategoryEdit,CategoryDelete}
   filter/     AuthenticationFilter.java (bảo vệ /admin/*)
 src/main/webapp/views/                           JSP + JSTL
+src/main/webapp/WEB-INF/sitemesh3.xml            SiteMesh 3 decorator mapping
+src/main/webapp/WEB-INF/decorators/bootstrap.html Bootstrap 5 shared template
 ```
+
+## Giao diện và validation
+- SiteMesh 3 áp dụng một Bootstrap 5 template cho các trang HTML; Bootstrap CSS/JS được tải từ jsDelivr.
+- Các form đăng nhập, đăng ký, quên mật khẩu, thêm/sửa danh mục và thêm/sửa video đều kiểm tra dữ liệu ở server; các form cũng khai báo ràng buộc phù hợp trên trình duyệt.
+- Ảnh danh mục chỉ nhận JPG, JPEG, PNG hoặc WEBP; dung lượng upload tối đa 5 MB.
 
 ## URL
 | URL | Chức năng |

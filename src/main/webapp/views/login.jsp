@@ -18,7 +18,7 @@
             <c:if test="${not empty error}"><div class="login-error"><c:out value="${error}"/></div></c:if>
             <form action="<c:url value='/login'/>" method="post">
                 <label for="username">Tên đăng nhập</label>
-                <input id="username" name="username" autocomplete="username" required autofocus value="<c:out value='${username}'/>">
+                <input id="username" name="username" autocomplete="username" required maxlength="30" autofocus value="<c:out value='${username}'/>">
                 <label for="password">Mật khẩu</label>
                 <input id="password" type="password" name="password" autocomplete="current-password" required>
                 <a class="forgot" href="<c:url value='/forgot-password'/>">Quên mật khẩu?</a>

@@ -77,20 +77,20 @@
                 <form action="${addUrl}" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="form-label" for="catename">Tên danh mục *</label>
-                        <input id="catename" class="field-input" placeholder="Ví dụ: Điện thoại, Thời trang..." name="catename" required>
+                        <input id="catename" class="field-input" placeholder="Ví dụ: Điện thoại, Thời trang..." name="catename" required maxlength="255" value="<c:out value='${category.categoryname}'/>">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="icon">Ảnh đại diện</label>
-                        <input id="icon" class="file-input" type="file" name="icon" accept="image/*">
+                        <input id="icon" class="file-input" type="file" name="icon" accept=".jpg,.jpeg,.png,.webp">
                         <span class="file-hint">Không bắt buộc. Chọn ảnh định dạng JPG, PNG hoặc WEBP.</span>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Trạng thái</label>
-                        <label><input type="radio" name="status" value="1" checked> Hoạt động</label>
+                        <label><input type="radio" name="status" value="1" ${empty category or category.status != 0 ? 'checked' : ''}> Hoạt động</label>
                         &nbsp;&nbsp;
-                        <label><input type="radio" name="status" value="0"> Khóa</label>
+                        <label><input type="radio" name="status" value="0" ${not empty category and category.status == 0 ? 'checked' : ''}> Khóa</label>
                     </div>
 
                     <div class="form-actions">

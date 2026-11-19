@@ -2,6 +2,9 @@ package vn.iotstar.util;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
 
 import jakarta.mail.Authenticator;
@@ -14,8 +17,8 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 /**
- * Gửi email OTP qua SMTP. Cấu hình trong src/main/resources/mail.properties
- * (hoặc biến môi trường MAIL_USERNAME / MAIL_PASSWORD).
+ * Gửi email OTP qua SMTP. Có thể ghi đè cấu hình mặc định bằng
+ * ~/.shopping-mail.properties hoặc biến môi trường MAIL_USERNAME / MAIL_PASSWORD.
  *
  * Nếu chưa cấu hình tài khoản email, mã OTP được in ra console của Tomcat
  * (chế độ DEV) để vẫn chạy thử được toàn bộ luồng.
@@ -31,11 +34,21 @@ public class EmailUtil {
         Properties p = new Properties();
         try (InputStream in = EmailUtil.class.getClassLoader().getResourceAsStream("mail.properties")) {
             if (in != null) {
-                p.load(new java.io.InputStreamReader(in, java.nio.charset.StandardCharsets.UTF_8));
+                p.load(new java.io.InputStreamReader(in, StandardCharsets.UTF_8));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (java.io.IOException e) {
+            throw new IllegalStateException("Không đọc được cấu hình email mặc định.", e);
         }
+
+        Path localConfig = Path.of(System.getProperty("user.home"), ".shopping-mail.properties");
+        if (Files.isRegularFile(localConfig)) {
+            try (InputStream in = Files.newInputStream(localConfig)) {
+                p.load(new java.io.InputStreamReader(in, StandardCharsets.UTF_8));
+            } catch (java.io.IOException e) {
+                throw new IllegalStateException("Không đọc được cấu hình email local: " + localConfig, e);
+            }
+        }
+
         String envUser = System.getenv("MAIL_USERNAME");
         String envPass = System.getenv("MAIL_PASSWORD");
         if (envUser != null && !envUser.isBlank()) {
@@ -50,7 +63,8 @@ public class EmailUtil {
     private static boolean isConfigured() {
         String user = CONFIG.getProperty("mail.username", "").trim();
         String pass = CONFIG.getProperty("mail.password", "").trim();
-        return !user.isEmpty() && !pass.isEmpty() && !user.startsWith("your_");
+        return !user.isEmpty() && !user.startsWith("your_")
+                && !pass.isEmpty() && !pass.startsWith("your_");
     }
 
     /**
@@ -69,7 +83,10 @@ public class EmailUtil {
 
         final String username = CONFIG.getProperty("mail.username").trim();
         final String password = CONFIG.getProperty("mail.password").trim();
-        String from = CONFIG.getProperty("mail.from", username).trim();
+        String from = CONFIG.getProperty("mail.from", "").trim();
+        if (from.isEmpty() || from.startsWith("your_")) {
+            from = username;
+        }
         String fromName = CONFIG.getProperty("mail.from.name", "Shopping");
 
         // Chuyển mọi khoá mail.smtp.* trong file cấu hình sang Properties của Session
