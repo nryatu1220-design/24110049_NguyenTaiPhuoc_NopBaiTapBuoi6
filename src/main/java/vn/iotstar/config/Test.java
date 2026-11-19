@@ -1,0 +1,43 @@
+package vn.iotstar.config;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import vn.iotstar.entity.Category;
+import vn.iotstar.entity.Video;
+
+/** Chạy main() để kiểm tra cấu hình JPA: tạo bảng và thêm 1 Category + 1 Video. */
+public class Test {
+
+    public static void main(String[] args) {
+        EntityManager enma = JPAConfig.getEntityManager();
+        EntityTransaction trans = enma.getTransaction();
+
+        Category cate = new Category();
+        cate.setCategoryname("Iphone");
+        cate.setImages("abc.jpg");
+        cate.setStatus(1);
+
+        Video video = new Video();
+        video.setVideoId("v01");
+        video.setTitle("test");
+        video.setActive(true);
+        cate.addVideo(video);
+
+        try {
+            trans.begin();
+            enma.persist(cate);
+            enma.persist(video);
+            trans.commit();
+            System.out.println("Them thanh cong, categoryId = " + cate.getCategoryId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (trans.isActive()) {
+                trans.rollback();
+            }
+            throw e;
+        } finally {
+            enma.close();
+            JPAConfig.shutdown();
+        }
+    }
+}

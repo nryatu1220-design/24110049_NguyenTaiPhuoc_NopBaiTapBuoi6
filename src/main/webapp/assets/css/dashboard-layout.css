@@ -1,0 +1,105 @@
+/* Dashboard-only layout: keep the recent-category table compact and full width. */
+
+.content-grid {
+    display: block !important;
+}
+
+.recent-panel {
+    width: 100%;
+}
+
+.recent-table {
+    table-layout: fixed;
+}
+
+.recent-table th,
+.recent-table td {
+    padding: 10px 12px;
+    vertical-align: middle;
+}
+
+.recent-table th:first-child {
+    width: 55%;
+}
+
+/* Category Cell Layout */
+.category-cell {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.category-cell > span {
+    min-width: 0;
+}
+
+.category-cell strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.category-cell small {
+    display: block;
+    margin-top: 3px;
+    color: #605e5c;
+    font-size: 12px;
+}
+
+/* Thumbnails & Placeholders */
+.category-thumb,
+.category-placeholder {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.category-placeholder {
+    display: grid;
+    place-items: center;
+    background: #f3f2f1;
+    color: #605e5c;
+    font-size: 20px;
+}
+
+/* Typography & Status Badges */
+.id-pill {
+    color: #005a9e;
+}
+
+.status {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.recent-table th,
+.recent-table td:nth-child(n+2) {
+    text-align: center;
+}
+
+.status-ready {
+    color: #107c10;
+}
+
+.status-pending {
+    color: #986f0b;
+}
+
+/* Panel Footer */
+.panel-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-top: 1px solid #edebe9;
+    color: #605e5c;
+}
+
+.panel-footer a {
+    color: #005a9e;
+    text-decoration: none;
+}
