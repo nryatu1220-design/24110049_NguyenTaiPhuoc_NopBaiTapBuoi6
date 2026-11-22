@@ -41,7 +41,7 @@ public class CategoryEditController extends HttpServlet {
         }
 
         req.setAttribute("category", category);
-        req.getRequestDispatcher("/views/admin/edit-category.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/admin/edit-category.jsp").include(req, resp);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class CategoryEditController extends HttpServlet {
                     ? "Tên danh mục không được để trống"
                     : "Tên danh mục tối đa 255 ký tự");
             req.setAttribute("category", category);
-            req.getRequestDispatcher("/views/admin/edit-category.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/edit-category.jsp").include(req, resp);
             return;
         }
 
@@ -84,12 +84,12 @@ public class CategoryEditController extends HttpServlet {
         } catch (IllegalArgumentException e) {
             req.setAttribute("error", e.getMessage());
             req.setAttribute("category", category);
-            req.getRequestDispatcher("/views/admin/edit-category.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/edit-category.jsp").include(req, resp);
             return;
         } catch (IOException | ServletException | IllegalStateException e) {
             req.setAttribute("error", "Không thể tải ảnh lên. Vui lòng kiểm tra định dạng và dung lượng.");
             req.setAttribute("category", category);
-            req.getRequestDispatcher("/views/admin/edit-category.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/edit-category.jsp").include(req, resp);
             return;
         }
         if (uploadedImage != null) {
@@ -103,7 +103,7 @@ public class CategoryEditController extends HttpServlet {
             category.setImages(currentCategory.getImages());
             req.setAttribute("error", e.getMessage());
             req.setAttribute("category", category);
-            req.getRequestDispatcher("/views/admin/edit-category.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/edit-category.jsp").include(req, resp);
             return;
         }
         resp.sendRedirect(req.getContextPath() + "/admin/category/list");

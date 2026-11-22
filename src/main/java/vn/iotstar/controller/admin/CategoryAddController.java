@@ -29,7 +29,7 @@ public class CategoryAddController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/views/admin/add-category.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/admin/add-category.jsp").include(req, resp);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CategoryAddController extends HttpServlet {
             invalidCategory.setCategoryname(name);
             invalidCategory.setStatus("0".equals(req.getParameter("status")) ? 0 : 1);
             req.setAttribute("category", invalidCategory);
-            req.getRequestDispatcher("/views/admin/add-category.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/add-category.jsp").include(req, resp);
             return;
         }
 
@@ -61,12 +61,12 @@ public class CategoryAddController extends HttpServlet {
         } catch (IllegalArgumentException e) {
             req.setAttribute("error", e.getMessage());
             req.setAttribute("category", category);
-            req.getRequestDispatcher("/views/admin/add-category.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/add-category.jsp").include(req, resp);
             return;
         } catch (IOException | ServletException | IllegalStateException e) {
             req.setAttribute("error", "Không thể tải ảnh lên. Vui lòng kiểm tra định dạng và dung lượng.");
             req.setAttribute("category", category);
-            req.getRequestDispatcher("/views/admin/add-category.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/add-category.jsp").include(req, resp);
             return;
         }
         category.setImages(uploadedImage);
@@ -77,7 +77,7 @@ public class CategoryAddController extends HttpServlet {
             FileUploadUtil.deleteQuietly(Constant.DIR, uploadedImage);
             req.setAttribute("error", e.getMessage());
             req.setAttribute("category", category);
-            req.getRequestDispatcher("/views/admin/add-category.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/add-category.jsp").include(req, resp);
             return;
         }
         resp.sendRedirect(req.getContextPath() + "/admin/category/list");

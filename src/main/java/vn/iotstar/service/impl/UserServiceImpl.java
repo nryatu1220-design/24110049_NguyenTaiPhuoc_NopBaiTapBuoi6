@@ -21,6 +21,7 @@ public class UserServiceImpl implements IUserService {
 
     private static final String PURPOSE_ACTIVATE = "ACTIVATE";
     private static final String PURPOSE_RESET = "RESET";
+    private static final String PURPOSE_PROFILE_UPDATE = "PROFILE_UPDATE";
 
     /** OTP có hiệu lực 5 phút, được nhập sai tối đa 5 lần, gửi lại cách nhau tối thiểu 30 giây. */
     private static final int OTP_MINUTES = 5;
@@ -142,9 +143,72 @@ public class UserServiceImpl implements IUserService {
         userDao.update(user);
     }
 
+    // ------------------------------------------------------------------ cập nhật hồ sơ
+
+    @Override
+    public void requestProfileUpdate(int userId, String fullname, String phone, String email) {
+        User user = userDao.findById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("Không tìm thấy người dùng");
+        }
+        fullname = fullname == null ? "" : fullname.trim();
+        phone = phone == null ? "" : phone.trim();
+        email = normalizeEmail(email);
+        if (fullname.isEmpty() || fullname.length() > 100) {
+            throw new IllegalArgumentException("Họ tên không được để trống (tối đa 100 ký tự)");
+        }
+        if (!EMAIL.matcher(email).matches() || email.length() > 100) {
+            throw new IllegalArgumentException("Email không hợp lệ");
+        }
+        if (phone.length() > 20) {
+            throw new IllegalArgumentException("Số điện thoại tối đa 20 ký tự");
+        }
+        if (!email.equalsIgnoreCase(user.getEmail())) {
+            User used = userDao.findByEmail(email);
+            if (used != null && used.getUserId() != userId) {
+                throw new IllegalArgumentException("Email đã được sử dụng");
+            }
+        }
+        issueOtp(user, PURPOSE_PROFILE_UPDATE, "xác nhận cập nhật hồ sơ", email);
+    }
+
+    @Override
+    public void confirmProfileUpdate(int userId, String newEmail, String fullname, String phone,
+            String avatarUrl, String otp) {
+        User user = userDao.findById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("Người dùng không tồn tại");
+        }
+        newEmail = normalizeEmail(newEmail);
+        checkOtp(user, PURPOSE_PROFILE_UPDATE, otp);
+        fullname = fullname == null ? "" : fullname.trim();
+        phone = phone == null ? "" : phone.trim();
+        if (!EMAIL.matcher(newEmail).matches() || fullname.isEmpty() || phone.length() > 20) {
+            throw new IllegalArgumentException("Thông tin hồ sơ không hợp lệ");
+        }
+        if (!newEmail.equalsIgnoreCase(user.getEmail())) {
+            User used = userDao.findByEmail(newEmail);
+            if (used != null && used.getUserId() != userId) {
+                throw new IllegalArgumentException("Email đã được sử dụng");
+            }
+        }
+        user.setFullname(fullname);
+        user.setPhone(phone);
+        user.setEmail(newEmail);
+        if (avatarUrl != null) {
+            user.setAvatarUrl(avatarUrl);
+        }
+        clearOtp(user);
+        userDao.update(user);
+    }
+
     // ------------------------------------------------------------------ OTP dùng chung
 
     private void issueOtp(User user, String purpose, String actionText) {
+        issueOtp(user, purpose, actionText, user.getEmail());
+    }
+
+    private void issueOtp(User user, String purpose, String actionText, String recipient) {
         LocalDateTime now = LocalDateTime.now();
         if (user.getOtpExpiry() != null && user.getOtp() != null) {
             LocalDateTime issuedAt = user.getOtpExpiry().minusMinutes(OTP_MINUTES);
@@ -159,7 +223,7 @@ public class UserServiceImpl implements IUserService {
         user.setOtpExpiry(now.plusMinutes(OTP_MINUTES));
         user.setOtpAttempts(0);
         userDao.update(user);
-        EmailUtil.sendOtp(user.getEmail(), user.getFullname(), otp, actionText, OTP_MINUTES);
+        EmailUtil.sendOtp(recipient, user.getFullname(), otp, actionText, OTP_MINUTES);
     }
 
     private void checkOtp(User user, String purpose, String input) {

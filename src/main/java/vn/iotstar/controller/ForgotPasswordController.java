@@ -21,7 +21,7 @@ public class ForgotPasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/views/forgot-password.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/forgot-password.jsp").include(req, resp);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ForgotPasswordController extends HttpServlet {
         } catch (IllegalArgumentException | IllegalStateException e) {
             req.setAttribute("error", e.getMessage());
             req.setAttribute("email", email);
-            req.getRequestDispatcher("/views/forgot-password.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/forgot-password.jsp").include(req, resp);
             return;
         }
         HttpSession session = req.getSession(true);

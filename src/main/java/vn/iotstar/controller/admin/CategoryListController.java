@@ -49,6 +49,6 @@ public class CategoryListController extends HttpServlet {
 
         req.setAttribute("cateList", cateList);
         req.setAttribute("keyword", keyword);
-        req.getRequestDispatcher("/views/admin/list-category.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/admin/list-category.jsp").include(req, resp);
     }
 }

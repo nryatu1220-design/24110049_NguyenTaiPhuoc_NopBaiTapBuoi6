@@ -10,13 +10,11 @@
         <class>vn.iotstar.entity.User</class>
 
         <properties>
-            <!-- Kết nối SQL Server: sửa user / password / databaseName cho đúng máy bạn -->
+            <!-- Giữ kết nối SQL Server hiện tại và xác thực bằng tài khoản Windows chạy ứng dụng. -->
             <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=ShoppingJPA"/>
+                      value="jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=ShoppingJPA;integratedSecurity=true"/>
             <property name="jakarta.persistence.jdbc.driver"
                       value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-            <property name="jakarta.persistence.jdbc.user" value="sa"/>
-            <property name="jakarta.persistence.jdbc.password" value="123456"/>
 
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>

@@ -51,7 +51,7 @@ public class VideoSaveController extends HttpServlet {
             req.setAttribute("video", video);
         }
         req.setAttribute("editMode", isEdit(req));
-        req.getRequestDispatcher(FORM).forward(req, resp);
+        req.getRequestDispatcher(FORM).include(req, resp);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class VideoSaveController extends HttpServlet {
             req.setAttribute("error", message);
             req.setAttribute("video", video);
             req.setAttribute("editMode", edit);
-            req.getRequestDispatcher(FORM).forward(req, resp);
+            req.getRequestDispatcher(FORM).include(req, resp);
             return;
         }
 

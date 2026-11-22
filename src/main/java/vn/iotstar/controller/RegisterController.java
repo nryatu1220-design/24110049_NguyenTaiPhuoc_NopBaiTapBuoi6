@@ -21,7 +21,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/views/register.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/register.jsp").include(req, resp);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class RegisterController extends HttpServlet {
             req.setAttribute("username", username);
             req.setAttribute("fullname", fullname);
             req.setAttribute("email", email);
-            req.getRequestDispatcher("/views/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/register.jsp").include(req, resp);
             return;
         }
 

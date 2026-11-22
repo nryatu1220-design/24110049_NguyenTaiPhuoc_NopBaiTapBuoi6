@@ -31,7 +31,7 @@ public class LoginController extends HttpServlet {
         } else if ("1".equals(req.getParameter("reset"))) {
             req.setAttribute("success", "Đặt lại mật khẩu thành công! Hãy đăng nhập bằng mật khẩu mới.");
         }
-        req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/login.jsp").include(req, resp);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class LoginController extends HttpServlet {
         if (username == null || username.isBlank() || password == null || password.isEmpty()) {
             req.setAttribute("error", "Vui lòng nhập tên đăng nhập và mật khẩu.");
             req.setAttribute("username", username == null ? "" : username.trim());
-            req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/login.jsp").include(req, resp);
             return;
         }
 
@@ -80,6 +80,6 @@ public class LoginController extends HttpServlet {
 
         req.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng.");
         req.setAttribute("username", username);
-        req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/login.jsp").include(req, resp);
     }
 }

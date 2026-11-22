@@ -37,6 +37,6 @@ public class DashboardController extends HttpServlet {
         req.setAttribute("categoryCount", categories.size());
         req.setAttribute("imageCount", imageCount);
         req.setAttribute("recentCategories", recentCategories);
-        req.getRequestDispatcher("/views/admin/dashboard.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/admin/dashboard.jsp").include(req, resp);
     }
 }

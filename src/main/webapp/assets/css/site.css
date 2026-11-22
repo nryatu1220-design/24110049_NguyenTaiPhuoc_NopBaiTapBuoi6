@@ -71,6 +71,14 @@ a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
 .current img{width:128px;aspect-ratio:4/3;object-fit:contain;border:1px solid var(--line)}
 .form-actions{display:flex;gap:10px;margin-top:24px}
 
+/* profile */
+.profile-panel{max-width:720px}
+.profile-panel input[type=text],.profile-panel input[type=email],.profile-panel input[type=file]{width:100%;padding:8px 10px;border:1px solid #8a8886;font:inherit;background:#fff}
+.profile-avatar{margin-bottom:18px}
+.profile-avatar img,.avatar-placeholder{width:96px;height:96px;border-radius:50%;object-fit:cover}
+.profile-avatar img{border:3px solid #fff;box-shadow:0 1px 8px #0002}
+.avatar-placeholder{display:grid;place-items:center;background:var(--blue);color:#fff;font-size:36px;font-weight:700}
+
 /* watch */
 .watch{max-width:900px;margin:0 auto}
 .player{width:100%;background:#000;aspect-ratio:4/3;display:block}

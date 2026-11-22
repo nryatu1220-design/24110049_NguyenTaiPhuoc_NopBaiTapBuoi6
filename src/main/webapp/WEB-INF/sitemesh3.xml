@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemesh>
-    <decorator-prefix>/</decorator-prefix>
-    <mapping path="/*" decorator="decorators/bootstrap.html"/>
+    <decorator-prefix>/WEB-INF/decorators/</decorator-prefix>
+    <dispatch-mode>include</dispatch-mode>
+    <mapping path="/*" decorator="bootstrap.html"/>
 </sitemesh>

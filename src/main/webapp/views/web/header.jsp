@@ -8,6 +8,7 @@
             <c:if test="${not empty sessionScope.username}">
                 <a class="${param.active == 'video' ? 'active' : ''}" href="<c:url value='/video'/>">Video của tôi</a>
                 <a href="<c:url value='/admin/dashboard'/>">Quản trị</a>
+                <a class="${param.active == 'profile' ? 'active' : ''}" href="<c:url value='/profile'/>">Hồ sơ</a>
             </c:if>
         </nav>
         <div class="nav-right">

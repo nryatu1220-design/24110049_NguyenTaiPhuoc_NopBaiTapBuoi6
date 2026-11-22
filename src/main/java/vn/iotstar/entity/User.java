@@ -40,6 +40,12 @@ public class User implements Serializable {
     @Column(name = "email", columnDefinition = "NVARCHAR(100)", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "phone", columnDefinition = "NVARCHAR(20)")
+    private String phone;
+
+    @Column(name = "avatarUrl", columnDefinition = "NVARCHAR(500)")
+    private String avatarUrl;
+
     @Column(name = "createdDate")
     private LocalDateTime createdDate = LocalDateTime.now();
 
@@ -79,6 +85,10 @@ public class User implements Serializable {
     public void setFullname(String fullname) { this.fullname = fullname; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public String getAvatarUrl() { return avatarUrl; }
+    public void setAvatarUrl(String avatarUrl) { this.avatarUrl = avatarUrl; }
     public LocalDateTime getCreatedDate() { return createdDate; }
     public void setCreatedDate(LocalDateTime createdDate) { this.createdDate = createdDate; }
     public boolean isActive() { return active; }

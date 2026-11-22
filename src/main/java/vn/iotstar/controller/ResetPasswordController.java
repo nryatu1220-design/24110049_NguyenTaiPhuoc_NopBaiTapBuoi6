@@ -35,7 +35,7 @@ public class ResetPasswordController extends HttpServlet {
             session.removeAttribute("resetFlash");
         }
         req.setAttribute("maskedEmail", VerifyOtpController.mask(email));
-        req.getRequestDispatcher("/views/reset-password.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/reset-password.jsp").include(req, resp);
     }
 
     @Override
@@ -72,6 +72,6 @@ public class ResetPasswordController extends HttpServlet {
             }
         }
         req.setAttribute("maskedEmail", VerifyOtpController.mask(email));
-        req.getRequestDispatcher("/views/reset-password.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/reset-password.jsp").include(req, resp);
     }
 }

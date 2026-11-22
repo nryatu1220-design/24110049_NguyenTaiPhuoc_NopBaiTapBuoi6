@@ -50,6 +50,6 @@ public class VideoListController extends HttpServlet {
         } else if ("notfound".equals(msg)) {
             req.setAttribute("error", "Không tìm thấy video hoặc bạn không có quyền thao tác.");
         }
-        req.getRequestDispatcher("/views/web/video-list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/web/video-list.jsp").include(req, resp);
     }
 }

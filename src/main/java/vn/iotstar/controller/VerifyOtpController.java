@@ -34,7 +34,7 @@ public class VerifyOtpController extends HttpServlet {
         moveFlash(session, "otpFlash", req, "info");
         moveFlash(session, "otpFlashError", req, "error");
         req.setAttribute("maskedEmail", mask(email));
-        req.getRequestDispatcher("/views/verify-otp.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/verify-otp.jsp").include(req, resp);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class VerifyOtpController extends HttpServlet {
             }
         }
         req.setAttribute("maskedEmail", mask(email));
-        req.getRequestDispatcher("/views/verify-otp.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/verify-otp.jsp").include(req, resp);
     }
 
     private static void moveFlash(HttpSession session, String key, HttpServletRequest req, String attr) {

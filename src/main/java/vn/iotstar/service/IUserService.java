@@ -40,4 +40,11 @@ public interface IUserService {
 
     /** @throws IllegalArgumentException OTP sai / hết hạn hoặc mật khẩu mới không hợp lệ */
     void resetPassword(String email, String otp, String newPassword);
+
+    /** Gửi OTP xác nhận khi người dùng đổi email hoặc các thông tin hồ sơ. */
+    void requestProfileUpdate(int userId, String fullname, String phone, String email);
+
+    /** Cập nhật hồ sơ sau khi OTP gửi đến email mới được xác nhận. */
+    void confirmProfileUpdate(int userId, String newEmail, String fullname, String phone,
+            String avatarUrl, String otp);
 }
