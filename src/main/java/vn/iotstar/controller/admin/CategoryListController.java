@@ -26,29 +26,28 @@ public class CategoryListController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
 
         String keyword = req.getParameter("keyword");
-        List<Category> cateList;
-
-        if (keyword != null && !keyword.trim().isEmpty()) {
-            // Tìm kiếm: hiển thị toàn bộ kết quả, không phân trang
-            cateList = cateService.searchByName(keyword.trim());
-        } else {
-            int totalPages = Math.max(1, (int) Math.ceil(cateService.count() / (double) PAGE_SIZE));
-            int page = 1;
-            try {
-                page = Integer.parseInt(req.getParameter("page"));
-            } catch (NumberFormatException e) {
-                // không có / sai page -> trang 1
-            }
-            page = Math.min(Math.max(page, 1), totalPages);
-
-            cateList = cateService.findAll(page - 1, PAGE_SIZE);
-            req.setAttribute("page", page);
-            req.setAttribute("totalPages", totalPages);
-            req.setAttribute("offset", (page - 1) * PAGE_SIZE);
+        String normalizedKeyword = keyword == null ? "" : keyword.trim();
+        int total = normalizedKeyword.isEmpty()
+                ? cateService.count()
+                : cateService.countByName(normalizedKeyword);
+        int totalPages = Math.max(1, (int) Math.ceil(total / (double) PAGE_SIZE));
+        int page = 1;
+        try {
+            page = Integer.parseInt(req.getParameter("page"));
+        } catch (NumberFormatException e) {
+            // Missing or malformed page uses the first page.
         }
+        page = Math.min(Math.max(page, 1), totalPages);
+
+        List<Category> cateList = normalizedKeyword.isEmpty()
+                ? cateService.findAll(page - 1, PAGE_SIZE)
+                : cateService.searchByName(normalizedKeyword, page - 1, PAGE_SIZE);
 
         req.setAttribute("cateList", cateList);
         req.setAttribute("keyword", keyword);
+        req.setAttribute("page", page);
+        req.setAttribute("totalPages", totalPages);
+        req.setAttribute("offset", (page - 1) * PAGE_SIZE);
         req.getRequestDispatcher("/views/admin/list-category.jsp").include(req, resp);
     }
 }

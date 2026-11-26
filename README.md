@@ -1,19 +1,18 @@
-# ShoppingJPA – CRUD Category với JPA 3.0 + Jakarta EE 10 (Servlet 6.0)
+# ShoppingJPA – Spring Boot 4, JSP/JSTL và JPA
 
-Chuyển bài CRUD Category (Servlet + JDBC) sang **JPA (Hibernate 7)**, kiến trúc 3 lớp:
-Controller → Service → DAO → Entity (EntityManager).
+Ứng dụng chạy trên **Spring Boot 4** dưới dạng executable WAR, giữ JSP/JSTL và các Servlet hiện có. Tầng dữ liệu dùng JPA (Hibernate) với SQL Server.
 
 ## Yêu cầu
 - JDK 21+, Maven
-- Tomcat 10.1+ (dùng `jakarta.*`)
+- Tomcat 11+ nếu triển khai WAR lên Tomcat ngoài (dùng `jakarta.*`)
 - SQL Server (TCP/IP port 1433, bật SQL Authentication cho user `sa`)
 
 ## Cách chạy
-1. Chạy `sql/create-database.sql` để tạo database `ShoppingJPA`.
-2. Sửa user / password / databaseName trong `src/main/resources/META-INF/persistence.xml`.
+1. Chạy `sql/create-database.sql` bằng SQL Server Management Studio để tạo database `ShoppingJPA`.
+2. Kiểm tra địa chỉ server và `databaseName` trong `src/main/resources/META-INF/persistence.xml`. Cấu hình hiện tại dùng Windows Integrated Authentication; tài khoản Windows chạy ứng dụng phải có quyền truy cập SQL Server. Nếu dùng SQL Authentication, cấu hình URL và thông tin đăng nhập JDBC tương ứng, không commit mật khẩu vào Git.
 3. (Tuỳ chọn) Chạy `vn.iotstar.config.Test` (main) để Hibernate tạo bảng và thêm dữ liệu thử.
-4. `mvn clean package` → deploy `target/ShoppingJPA.war` lên Tomcat (hoặc Run on Server trong IDE).
-5. Mở `http://localhost:8080/ShoppingJPA/` → bấm **Đăng ký ngay** tạo tài khoản, rồi đăng nhập.
+4. Chạy `mvn spring-boot:run` hoặc `mvn clean package` rồi `java -jar target/ShoppingJPA.war`.
+5. Khi chạy bằng embedded Tomcat, mở `http://localhost:8080/`. Nếu deploy WAR lên Tomcat 11+, mở `http://localhost:8080/ShoppingJPA/`.
 
 Ảnh upload lưu ở `<thư mục home>/upload/category`, poster + video lưu ở `<thư mục home>/upload/video` (xem `util/Constant.java`).
 
@@ -60,6 +59,8 @@ src/main/webapp/WEB-INF/decorators/bootstrap.html Bootstrap 5 shared template
 | `/admin/category/add` | Thêm (GET form, POST lưu) |
 | `/admin/category/edit?id=1` | Sửa (GET form, POST lưu) |
 | `/admin/category/delete?id=1` | Xóa |
+| `/admin/user/list[?page=2&keyword=...]` | Danh sách người dùng, tìm kiếm theo tên đăng nhập/họ tên/email và phân trang |
+| `/admin/user/add`, `/admin/user/edit?id=1`, `POST /admin/user/delete` | CRUD người dùng |
 
 | `/register` → `/verify-otp` | Đăng ký rồi nhập OTP gửi qua email để **kích hoạt** tài khoản (OTP 6 số, hiệu lực 5 phút, sai tối đa 5 lần) |
 | `/forgot-password` → `/reset-password` | Quên mật khẩu: nhập email → nhận OTP → đặt mật khẩu mới |

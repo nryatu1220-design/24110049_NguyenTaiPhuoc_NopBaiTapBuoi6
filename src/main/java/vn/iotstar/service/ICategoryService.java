@@ -24,5 +24,9 @@ public interface ICategoryService {
 
     List<Category> searchByName(String catname);
 
+    List<Category> searchByName(String catname, int page, int pageSize);
+
     int count();
+
+    int countByName(String catname);
 }

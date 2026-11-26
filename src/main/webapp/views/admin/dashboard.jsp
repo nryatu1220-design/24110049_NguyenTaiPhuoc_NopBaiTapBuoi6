@@ -23,7 +23,7 @@
             <a class="nav-link" href="<c:url value='/home'/>"><span class="nav-icon">⌂</span><span>Trang chủ</span></a>
             <a class="nav-link" href="<c:url value='/profile'/>"><span class="nav-icon">♙</span><span>Hồ sơ cá nhân</span></a>
             <div class="nav-link disabled" title="Project hiện chưa có chức năng này"><span class="nav-icon">▣</span><span>Quản lý sản phẩm</span><span class="coming">Sắp có</span></div>
-            <div class="nav-link disabled" title="Project hiện chưa có chức năng này"><span class="nav-icon">♙</span><span>Quản lý tài khoản</span><span class="coming">Sắp có</span></div>
+            <a class="nav-link" href="<c:url value='/admin/user/list'/>"><span class="nav-icon">♙</span><span>Quản lý người dùng</span></a>
         </nav>
         <div class="sidebar-bottom">
             <div class="sidebar-user"><div class="avatar">${sessionScope.fullname.substring(0,1).toUpperCase()}</div><div><strong><c:out value="${sessionScope.fullname}"/></strong><small>@${sessionScope.username}</small></div><span class="user-dot"></span></div>

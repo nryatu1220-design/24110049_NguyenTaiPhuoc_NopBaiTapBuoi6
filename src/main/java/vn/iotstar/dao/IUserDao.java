@@ -1,5 +1,7 @@
 package vn.iotstar.dao;
 
+import java.util.List;
+
 import vn.iotstar.entity.User;
 
 public interface IUserDao {
@@ -19,4 +21,8 @@ public interface IUserDao {
 
     /** Trả về null nếu không có. */
     User findByEmail(String email);
+
+    List<User> findAll(String keyword, int page, int pageSize);
+
+    int count(String keyword);
 }

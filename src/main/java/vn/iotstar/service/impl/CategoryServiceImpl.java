@@ -81,8 +81,18 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
+    public List<Category> searchByName(String catname, int page, int pageSize) {
+        return cateDao.searchByName(catname, page, pageSize);
+    }
+
+    @Override
     public int count() {
         return cateDao.count();
+    }
+
+    @Override
+    public int countByName(String catname) {
+        return cateDao.countByName(catname);
     }
 
     private void deleteImageFile(String fileName) {

@@ -138,11 +138,40 @@ public class CategoryDao implements ICategoryDao {
     }
 
     @Override
+    public List<Category> searchByName(String catname, int page, int pageSize) {
+        EntityManager enma = JPAConfig.getEntityManager();
+        try {
+            return enma.createQuery(
+                    "SELECT c FROM Category c WHERE c.categoryname LIKE :catname ORDER BY c.categoryId",
+                    Category.class)
+                    .setParameter("catname", "%" + catname + "%")
+                    .setFirstResult(page * pageSize)
+                    .setMaxResults(pageSize)
+                    .getResultList();
+        } finally {
+            enma.close();
+        }
+    }
+
+    @Override
     public int count() {
         EntityManager enma = JPAConfig.getEntityManager();
         try {
             String jpql = "SELECT COUNT(c) FROM Category c";
             return enma.createQuery(jpql, Long.class).getSingleResult().intValue();
+        } finally {
+            enma.close();
+        }
+    }
+
+    @Override
+    public int countByName(String catname) {
+        EntityManager enma = JPAConfig.getEntityManager();
+        try {
+            return enma.createQuery(
+                    "SELECT COUNT(c) FROM Category c WHERE c.categoryname LIKE :catname", Long.class)
+                    .setParameter("catname", "%" + catname + "%")
+                    .getSingleResult().intValue();
         } finally {
             enma.close();
         }

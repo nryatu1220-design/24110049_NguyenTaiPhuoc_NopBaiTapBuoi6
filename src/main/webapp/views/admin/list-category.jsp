@@ -130,11 +130,19 @@
             <c:if test="${totalPages > 1}">
                 <div class="toolbar" style="justify-content:center;gap:8px;margin-top:16px;">
                     <c:if test="${page > 1}">
-                        <a class="button button-secondary" href="<c:url value='/admin/category/list?page=${page - 1}'/>">← Trước</a>
+                        <c:url value="/admin/category/list" var="previousPage">
+                            <c:param name="page" value="${page - 1}"/>
+                            <c:param name="keyword" value="${keyword}"/>
+                        </c:url>
+                        <a class="button button-secondary" href="${previousPage}">← Trước</a>
                     </c:if>
                     <span>Trang ${page} / ${totalPages}</span>
                     <c:if test="${page < totalPages}">
-                        <a class="button button-secondary" href="<c:url value='/admin/category/list?page=${page + 1}'/>">Sau →</a>
+                        <c:url value="/admin/category/list" var="nextPage">
+                            <c:param name="page" value="${page + 1}"/>
+                            <c:param name="keyword" value="${keyword}"/>
+                        </c:url>
+                        <a class="button button-secondary" href="${nextPage}">Sau →</a>
                     </c:if>
                 </div>
             </c:if>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+                                 https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+
+    <persistence-unit name="jpa-shopping" transaction-type="RESOURCE_LOCAL">
+        <class>vn.iotstar.entity.Category</class>
+        <class>vn.iotstar.entity.Video</class>
+        <class>vn.iotstar.entity.User</class>
+
+        <properties>
+            <!-- Giữ kết nối SQL Server hiện tại và xác thực bằng tài khoản Windows chạy ứng dụng. -->
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=ShoppingJPA;integratedSecurity=true"/>
+            <property name="jakarta.persistence.jdbc.driver"
+                      value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <!-- Tự tạo / cập nhật bảng theo entity -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!-- Hibernate 6+ tự nhận dialect từ driver nên không cần khai báo hibernate.dialect -->
+        </properties>
+    </persistence-unit>
+</persistence>
